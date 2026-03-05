@@ -2,6 +2,12 @@ appId: com.codeak.desktop
 productName: Code.ak
 asar: true
 
+publish:
+  - provider: github
+    owner: Phaum
+    repo: Codeak-desktop
+    releaseType: release
+
 directories:
   output: dist
 

@@ -1,8 +1,30 @@
 const path = require("path");
-const { app, BrowserWindow, shell, Menu } = require("electron");
+const { app, dialog, BrowserWindow, shell, Menu } = require("electron");
+const { autoUpdater } = require("electron-updater");
 
 const HOME_URL = "https://codeak.ru";
 Menu.setApplicationMenu(null);
+
+let mainWindow = null;
+let reloadOnNextShow = false;
+
+function setupAutoUpdate() {
+  if (!app.isPackaged) return;
+
+  autoUpdater.on("error", (e) => console.error("[autoUpdater] error", e));
+
+  autoUpdater.on("update-downloaded", async () => {
+    const res = await dialog.showMessageBox({
+      type: "info",
+      buttons: ["Перезапустить и обновить", "Позже"],
+      defaultId: 0,
+      message: "Доступно обновление Code.ak. Перезапустить сейчас?",
+    });
+    if (res.response === 0) autoUpdater.quitAndInstall();
+  });
+
+  autoUpdater.checkForUpdatesAndNotify();
+}
 
 function isAllowedUrl(raw) {
   try {
@@ -12,10 +34,6 @@ function isAllowedUrl(raw) {
     return false;
   }
 }
-
-let mainWindow = null;
-let tray = null;
-let reloadOnNextShow = false;
 
 function reloadWindow(win) {
   if (!win) return;
@@ -50,20 +68,24 @@ function createWindow() {
     }
   });
 
-  mainWindow.on("show", () => {
+  win.on("show", () => {
     if (!reloadOnNextShow) return;
     reloadOnNextShow = false;
-    setTimeout(() => reloadWindow(mainWindow), 100);
+    setTimeout(() => reloadWindow(win), 100);
   });
 
   return win;
 }
 
 app.whenReady().then(() => {
-  createWindow();
+  mainWindow = createWindow();
+  setupAutoUpdate();
 
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) {
+      mainWindow = createWindow();
+      setupAutoUpdate();
+    }
   });
 });
 
