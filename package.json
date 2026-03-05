@@ -7,14 +7,15 @@
   "private": true,
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
   },
   "keywords": [],
   "author": {
-    "name": "Code.ak",
+    "name": "codeak",
     "email": "codesuppport@gmail.com"
   },
   "license": "MIT",
@@ -24,6 +25,8 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.11.1",
     "@electron-forge/maker-deb": "^7.11.1",
+    "@electron-forge/maker-dmg": "^7.11.1",
+    "@electron-forge/maker-pkg": "^7.11.1",
     "@electron-forge/maker-rpm": "^7.11.1",
     "@electron-forge/maker-squirrel": "^7.11.1",
     "@electron-forge/maker-wix": "^7.11.1",
@@ -31,6 +34,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
     "@electron-forge/plugin-fuses": "^7.11.1",
     "@electron/fuses": "^1.8.0",
-    "electron": "40.6.1"
+    "electron": "40.6.1",
+    "electron-builder": "^26.8.1"
   }
 }

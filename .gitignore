@@ -93,3 +93,8 @@ out/
 
 .idea/
 
+
+# build artifacts
+dist/
+out/
+*.blockmap

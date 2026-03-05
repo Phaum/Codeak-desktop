@@ -1,0 +1,38 @@
+appId: com.codeak.desktop
+productName: Code.ak
+asar: true
+
+directories:
+  output: dist
+
+files:
+  - "src/**"
+  - "assets/**"
+  - "package.json"
+
+win:
+  icon: assets/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: msi
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+
+mac:
+  icon: assets/icon.icns
+  target:
+    - dmg
+    - pkg
+    - zip
+
+linux:
+  icon: assets/icon.png
+  category: Development
+  target:
+    - AppImage
+    - deb
+    - rpm
